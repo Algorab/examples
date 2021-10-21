@@ -1,0 +1,54 @@
+include:
+  - kafka-keda-k2k.go
+kind: ArchiveUploadSpec
+name: k-consumer-js-o2Io
+
+---
+apiVersion: fission.io/v1
+kind: Package
+metadata:
+  creationTimestamp: null
+  name: k-consumer-c34f7910-4226-4217-b2b9-29204abd5d0d
+  namespace: kafka-keda-k2k-go
+spec:
+  environment:
+    name: go
+    namespace: kafka-keda-k2k-go
+  source:
+    type: url
+    url: archive://k-consumer-js-o2Io
+status:
+  buildstatus: pending
+  lastUpdateTimestamp: "2021-06-11T03:47:16Z"
+
+---
+apiVersion: fission.io/v1
+kind: Function
+metadata:
+  creationTimestamp: null
+  name: k-consumer
+  namespace: kafka-keda-k2k-go
+spec:
+  InvokeStrategy:
+    ExecutionStrategy:
+      ExecutorType: poolmgr
+      MaxScale: 1
+      MinScale: 0
+      SpecializationTimeout: 120
+      TargetCPUPercent: 0
+    StrategyType: execution
+  concurrency: 500
+  configmaps: null
+  environment:
+    name: go
+    namespace: kafka-keda-k2k-go
+  functionTimeout: 60
+  idletimeout: 120
+  package:
+    functionName: Handler
+    packageref:
+      name: k-consumer-c34f7910-4226-4217-b2b9-29204abd5d0d
+      namespace: kafka-keda-k2k-go
+  requestsPerPod: 1
+  resources: {}
+  secrets: null
